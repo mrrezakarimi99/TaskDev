@@ -1,0 +1,21 @@
+<?php
+require_once "functions.php";
+$status = null;
+$statussuccess = null;
+AuthLogin();
+$pdo = new PDO('mysql:host='. Hostname .';dbname='. DBname,Userserver,Passserver);
+$statement =$pdo->prepare("select * from users ");
+$statement ->execute();
+$user = $statement->fetchAll();
+//var_dump($user);die();
+$post =$pdo->prepare("select * from post ");
+$post ->execute();
+$posts = $post->fetchAll();
+$categorys = $pdo->prepare(" select * from category ");
+$categorys->execute();
+$cats = $categorys->fetchAll(PDO::FETCH_OBJ);
+$username = $_SESSION['username'];
+$userlogin = $pdo->prepare("select * from users where username = '$username'");
+$userlogin->execute();
+$userlog = $userlogin->fetchAll();
+require 'views/adminpanel.view.php';
